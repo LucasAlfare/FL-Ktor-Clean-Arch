@@ -1,5 +1,6 @@
-package c_infrastructure.http.ktor.routes
+package c_infrastructure.webserver.ktor.routes
 
+import a_domain.Constants
 import a_domain.UserDTO
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -9,7 +10,7 @@ import io.ktor.server.routing.*
 import userService
 
 fun Route.createUserRoute() {
-  post("/users/create") {
+  post(Constants.CREATE_USERS_ROUTE_URL) {
     val receivedUser = call.receive<UserDTO>()
     val id = userService.createUser(receivedUser)
     call.respond(HttpStatusCode.Created, id)

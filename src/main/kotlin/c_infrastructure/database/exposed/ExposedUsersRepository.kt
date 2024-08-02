@@ -11,6 +11,8 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 object ExposedUsersRepository : UserRepository {
   override suspend fun create(name: String, age: Int) =
     newSuspendedTransaction(context = Dispatchers.IO, db = myDb) {
+      super.create(name, age)
+
       val result = UsersTable.insertAndGetId {
         it[UsersTable.name] = name
         it[UsersTable.age] = age
@@ -20,6 +22,8 @@ object ExposedUsersRepository : UserRepository {
     }
 
   override suspend fun getById(id: Int) = newSuspendedTransaction(context = Dispatchers.IO, db = myDb) {
+    super.getById(id)
+
     UsersTable
       .selectAll()
       .where { UsersTable.id eq id }

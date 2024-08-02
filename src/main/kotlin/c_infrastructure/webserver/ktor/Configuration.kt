@@ -1,8 +1,8 @@
-package c_infrastructure.http.ktor
+package c_infrastructure.webserver.ktor
 
-import c_infrastructure.http.ktor.routes.createUserRoute
-import c_infrastructure.http.ktor.routes.getUserRoute
-import c_infrastructure.http.ktor.routes.helloRoute
+import c_infrastructure.webserver.ktor.routes.createUserRoute
+import c_infrastructure.webserver.ktor.routes.getUserRoute
+import c_infrastructure.webserver.ktor.routes.helloRoute
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*

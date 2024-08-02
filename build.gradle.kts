@@ -1,10 +1,16 @@
 @file:Suppress("PropertyName", "SpellCheckingInspection")
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+
 val ktor_version: String by project
 val exposed_version: String by project
 
 plugins {
-  kotlin("jvm")
+  id("org.springframework.boot") version "3.1.2"
+  id("io.spring.dependency-management") version "1.1.2"
+  kotlin("jvm") version "2.0.0" // The version of Kotlin to use
+  kotlin("plugin.spring") version "2.0.0" // The Kotlin Spring plugin
   id("org.jetbrains.kotlin.plugin.serialization")
 }
 
@@ -31,8 +37,15 @@ dependencies {
   // Specific SQLite driver dependency (just for quick test/debug)
   implementation("org.xerial:sqlite-jdbc:3.45.2.0")
 
+//  implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+  implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin") // Jackson extensions for Kotlin for working with JSON
+  implementation("org.jetbrains.kotlin:kotlin-reflect") // Kotlin reflection library, required for working with Spring
+
   // Logger for Exposed and Ktor
-  implementation("ch.qos.logback:logback-classic:1.5.3")
+  implementation("ch.qos.logback:logback-classic")
 
   // Dependencies used only in tests
   testImplementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
@@ -46,4 +59,10 @@ tasks.test {
 
 kotlin {
   jvmToolchain(17)
+}
+
+tasks.withType<KotlinCompile> { // Settings for `KotlinCompile` tasks
+  compilerOptions { // Kotlin compiler options
+    freeCompilerArgs.add("-Xjsr305=strict")// = listOf("-Xjsr305=strict") // `-Xjsr305=strict` enables the strict mode for JSR-305 annotations
+  }
 }

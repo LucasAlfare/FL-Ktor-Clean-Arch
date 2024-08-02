@@ -1,9 +1,11 @@
+package ktor
+
 import a_domain.UserDTO
-import c_infrastructure.database.exposed.ExposedDB.initDatabase
+import c_infrastructure.database.exposed.ExposedDB
 import c_infrastructure.database.exposed.UsersTable
 import c_infrastructure.database.ridiculous.RidiculousUserRepository
-import c_infrastructure.http.ktor.configureRouting
-import c_infrastructure.http.ktor.configureSerialization
+import c_infrastructure.webserver.ktor.configureRouting
+import c_infrastructure.webserver.ktor.configureSerialization
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
@@ -13,16 +15,17 @@ import io.ktor.server.testing.*
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
+import userService
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MainTests {
+class KtorTests {
 
   @BeforeTest
   fun setupTest() {
-    initDatabase()
+    ExposedDB.initDatabase()
     userService.userRepository = RidiculousUserRepository
   }
 

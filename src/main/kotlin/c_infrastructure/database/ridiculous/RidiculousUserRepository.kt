@@ -10,6 +10,8 @@ object RidiculousUserRepository : UserRepository {
   private val users = mutableListOf<User>()
 
   override suspend fun create(name: String, age: Int): Int {
+    super.create(name, age)
+
     val nextUser = User(
       id = abs(Random.nextInt()),
       name = name,
@@ -22,6 +24,8 @@ object RidiculousUserRepository : UserRepository {
   }
 
   override suspend fun getById(id: Int): User? {
+    super.getById(id)
+
     return users.singleOrNull { it.id == id }
   }
 }
